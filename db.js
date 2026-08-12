@@ -19,8 +19,10 @@ async function initDb() {
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE NOT NULL,
-      senha TEXT NOT NULL
+      senha TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
     CREATE TABLE IF NOT EXISTS clientes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
@@ -28,10 +30,27 @@ async function initDb() {
       email TEXT DEFAULT '',
       telefone TEXT DEFAULT '',
       endereco TEXT DEFAULT '',
+      categoria TEXT DEFAULT 'pessoa',
+      observacoes TEXT DEFAULT '',
+      avatar TEXT DEFAULT '',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
   `);
+
+  // Migra tabelas antigas se faltarem colunas novas
+  const cols = db.exec("PRAGMA table_info(clientes)")[0].values;
+  const colNames = cols.map(c => c[1]);
+  const novosCampos = [
+    ['categoria', 'TEXT DEFAULT "pessoa"'],
+    ['observacoes', 'TEXT DEFAULT ""'],
+    ['avatar', 'TEXT DEFAULT ""']
+  ];
+  novosCampos.forEach(([col, def]) => {
+    if (!colNames.includes(col)) {
+      db.run(`ALTER TABLE clientes ADD COLUMN ${col} ${def}`);
+    }
+  });
 
   salvar();
   return db;
@@ -60,7 +79,7 @@ function prepare(sql) {
         row = stmt.getAsObject();
       }
       stmt.free();
-      return row; // undefined se nao tem linha
+      return row;
     },
     all(...params) {
       const stmt = db.prepare(sql);
@@ -75,8 +94,4 @@ function prepare(sql) {
   };
 }
 
-module.exports = {
-  initDb,
-  prepare,
-  _getDb: () => db
-};
+module.exports = { initDb, prepare, _getDb: () => db };
