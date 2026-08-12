@@ -1,0 +1,16 @@
+{
+  "name": "crud-clientes",
+  "version": "1.0.0",
+  "description": "Sistema de cadastro de clientes com login - portfolio Rubens",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "sql.js": "^1.13.0"
+  }
+}

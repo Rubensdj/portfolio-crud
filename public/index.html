@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestao de Clientes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TELA DE LOGIN -->
+  <div class="login-container" id="loginScreen">
+    <div class="glass-card">
+      <h1>ClientHub</h1>
+      <p class="subtitle">Sistema de Gestao de Clientes</p>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div id="loginForm">
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" placeholder="seu@email.com">
+        </div>
+        <div class="input-group">
+          <label>Senha</label>
+          <input type="password" id="loginSenha" placeholder="******">
+        </div>
+        <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
+        <button class="btn-secondary" onclick="mostrarRegistro()">Criar conta</button>
+      </div>
+
+      <div id="registerForm" style="display:none">
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="seu@email.com">
+        </div>
+        <div class="input-group">
+          <label>Senha</label>
+          <input type="password" id="regSenha" placeholder="minimo 6 caracteres">
+        </div>
+        <button class="btn-primary" onclick="registrar()">Cadastrar</button>
+        <button class="btn-secondary" onclick="mostrarLogin()">Voltar ao login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+    <div class="header">
+      <h2>Dashboard</h2>
+      <div class="user-info">
+        <span id="userEmail"></span>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="label">Total Clientes</div>
+        <div class="value" id="totalClientes">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Com Email</div>
+        <div class="value" id="totalEmails">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Com Telefone</div>
+        <div class="value" id="totalTelefones">0</div>
+      </div>
+    </div>
+
+    <!-- Formulario Add/Edit -->
+    <div class="form-card" id="formCard">
+      <h3 id="formTitle">Novo Cliente</h3>
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <div class="input-group">
+          <label>Nome *</label>
+          <input type="text" id="cliNome" placeholder="Joao Silva">
+        </div>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="cliEmail" placeholder="joao@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Telefone</label>
+          <input type="text" id="cliTelefone" placeholder="(81) 99999-9999">
+        </div>
+        <div class="input-group">
+          <label>Endereco</label>
+          <input type="text" id="cliEndereco" placeholder="Rua, numero, bairro">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="salvarCliente()">Salvar</button>
+        <button class="btn-cancel" onclick="fecharForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>Clientes</h3>
+        <button class="btn-add" onclick="abrirFormNovo()">+ Novo Cliente</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th class="hide-mobile">Email</th>
+            <th class="hide-mobile">Telefone</th>
+            <th class="hide-mobile">Endereco</th>
+            <th>Acoes</th>
+          </tr>
+        </thead>
+        <tbody id="clientesTable"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState">
+        Nenhum cliente cadastrado. Clique em "Novo Cliente" pra comecar.
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
