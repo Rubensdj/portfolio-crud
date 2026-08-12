@@ -2,6 +2,10 @@
 
 Sistema web completo de cadastro de clientes com autenticacao, CRUD avancado, dashboard e interface premium.
 
+## Demo
+
+Apos configurar o deploy (veja instrucoes abaixo), acesse a URL publica gerada pelo Render.
+
 ## Features
 
 ### Autenticacao
@@ -23,23 +27,21 @@ Sistema web completo de cadastro de clientes com autenticacao, CRUD avancado, da
 ### Dashboard
 - Total de clientes, com email e com telefone
 - Grafico de novos clientes por mes (ultimos 6 meses)
-- Stats atualizam em tempo real
 
 ### UX
 - Interface dark premium glassmorphism
 - Toast de feedback (salvar, editar, excluir)
-- Loading states nos botoes (evita duplo click)
+- Loading states nos botoes
 - Validacao de email no front e back
 - Totalmente responsivo (mobile e desktop)
 
 ## Stack
-- **Backend**: Node.js + Express + SQLite (sql.js / WASM)
-- **Auth**: bcryptjs + jsonwebtoken
-- **Upload**: multer
-- **Frontend**: HTML5 + CSS3 + vanilla JS
-- **Deploy**: Railway / Render / qualquer host Node
+- Backend: Node.js + Express + SQLite (sql.js / WASM)
+- Auth: bcryptjs + jsonwebtoken
+- Upload: multer
+- Frontend: HTML5 + CSS3 + vanilla JS
 
-## Como rodar
+## Como rodar localmente
 
 ```bash
 npm install
@@ -48,11 +50,42 @@ npm start
 
 Acesse http://localhost:3000
 
-## Deploy
+## Deploy automatico via GitHub Actions + Render
 
-1. Suba para o GitHub
-2. Conecte no Railway.app ou Render.com
-3. Deploy automatico
+O projeto esta configurado para deploy automatico. A cada push na main,
+o GitHub Actions testa o codigo e dispara o deploy no Render.
+
+### Setup (fazer uma so vez):
+
+1. **Criar conta no Render** (gratis): https://render.com
+   - Sign up com GitHub
+
+2. **Criar o servico a partir do render.yaml**:
+   - Acesse https://dashboard.render.com
+   - Clique em "New" > "Blueprint"
+   - Selecione o repositorio `Rubensdj/portfolio-crud`
+   - O Render le o `render.yaml` e cria tudo automatico
+   - Anote o **Service ID** que aparece na URL do dashboard
+     (ex: srv-abc123, na URL https://dashboard.render.com/web/srv-abc123)
+
+3. **Criar API Key do Render**:
+   - Acesse https://dashboard.render.com/account/api-keys
+   - Clique em "Create API key"
+   - Copie a chave
+
+4. **Configurar Secrets no GitHub**:
+   - Acesse https://github.com/Rubensdj/portfolio-crud/settings/secrets/actions
+   - Clique em "New repository secret" e adicione:
+     - Nome: `RENDER_API_KEY`
+     - Valor: (sua API key do passo 3)
+   - Adicione outro secret:
+     - Nome: `RENDER_SERVICE_ID`
+     - Valor: (seu Service ID do passo 2, ex: srv-abc123)
+
+5. **Pronto!** A cada push na main:
+   - GitHub Actions roda testes
+   - Dispara deploy automatico no Render
+   - Sua app fica disponivel na URL do Render (ex: portfolio-crud.onrender.com)
 
 ## Portfolio
 
